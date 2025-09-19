@@ -4,6 +4,7 @@ import type { Task, TaskStatus } from './task.model';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { log } from 'console';
 import { GetTasksFilterDto } from './dto/get-tasks-filter';
+import { UpdateTaskDto } from './dto/update-task.dto';
 @Controller('tasks')
 export class TasksController {
   constructor(private tasksService: TasksService) {}
@@ -39,8 +40,10 @@ export class TasksController {
   @Patch('/:id/status')
   updateTaskStatus(
     @Param('id') id: string,
-    @Body('status') status: TaskStatus,
+    // @Body('status') status: TaskStatus,
+    @Body() updateTaskDto: UpdateTaskDto,
   ): Task {
+    const { status } = updateTaskDto;
     return this.tasksService.updateTaskStatus(id, status);
   }
 
