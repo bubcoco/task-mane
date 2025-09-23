@@ -1,14 +1,17 @@
 import { Module } from '@nestjs/common';
-import { TasksController } from './tasks.controller';
-import { TasksService } from './tasks.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TaskRepository } from './task.repository';
+import { Task } from './task.entity';
+import { TasksController } from './tasks.controller';
+import { TasksRepository } from './tasks.repository';
+import { TasksService } from './tasks.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([TaskRepository])
+    // This makes the standard Repository<Task> available for injection
+    TypeOrmModule.forFeature([Task]),
   ],
   controllers: [TasksController],
-  providers: [TasksService]
+  // Add your custom repository to the providers array
+  providers: [TasksService, TasksRepository],
 })
 export class TasksModule {}
